@@ -44,9 +44,51 @@ private:
                 _insert(data, node->right);
         }
     }
+    Node *FindMin(Node *node)
+    {
+        while (node->left != nullptr)
+            node = node->left;
+        return node;
+    }
     // 재귀적 호출을 위한 함수 선언
     Node *_delete(T data, Node *node)
     {
+        if (node == nullptr)
+            return nullptr;
+        if (data < node->data)
+            node->left = _delete(data, node->left);
+        else if (data > node->data)
+            node->right = _delete(data, node->right);
+        else
+        {
+            if (node->left == nullptr)
+            {
+                Node *temp = node->right;
+                delete node;
+                return temp;
+            }
+            else if (node->right == nullptr)
+            {
+                Node *temp = node->left;
+                delete node;
+                return temp;
+            }
+            else
+            {
+                Node *temp = FindMin(node->right);
+                node->data = temp->data;
+                node->right = _delete(node->data, node->right);
+            }
+            return node;
+        }
+    }
+    void _inorderPrint(Node *node)
+    {
+        if (node == nullptr)
+            return;
+        _inorderPrint(node->left);
+        cout << node->data << " ";
+        _inorderPrint(node->right);
     }
 
 public:
@@ -71,5 +113,9 @@ public:
     void delete(T data)
     {
         root = _delete(data, root);
+    }
+    void inorderPrint()
+    {
+        _inorderPrint(root);
     }
 };
