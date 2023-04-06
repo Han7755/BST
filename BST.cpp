@@ -36,7 +36,7 @@ private:
     }
 
     // 서브트리의 가장 작은 노드를 찾는 함수
-    Node<T> *findMin(Node<T> *node) const
+    Node<T> *findMin(Node<T> *node)
     {
         while (node->left != nullptr)
             node = node->left;
